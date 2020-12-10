@@ -1,0 +1,12 @@
+﻿  Source.cpp
+D:\Work\Assignment\Assignment\Assignment\Shader.h(56,34): warning C4101: 'e': unreferenced local variable
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(165,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(264,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(265,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(269,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(270,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(272,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(273,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(282,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Assignment.vcxproj -> D:\Work\Assignment\Assignment\Debug\Assignment.exe
