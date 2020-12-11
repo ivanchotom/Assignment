@@ -4,8 +4,10 @@
 
 	Texture::Texture(std::string _path, std::string _type)
 	{
-		_type = type;
+		textype = _type;
 		path = _path;
+
+
 		glGenTextures(1, &id);
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(true);
@@ -40,7 +42,7 @@
 	
 	}
 
-	GLuint Texture::getId()
+	unsigned int Texture::getId()
 	{
 		return id;
 	}
@@ -52,7 +54,9 @@
 
 	std::string Texture::GetType()
 	{
-		return type;
+		return textype;
 	}
+
+	
 	
 

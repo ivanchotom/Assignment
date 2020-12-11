@@ -9,15 +9,19 @@
         Texture(std::string _path, std::string _type );
 
 
-        GLuint getId();
-        
+        unsigned int getId();
+        void setId(unsigned int idset) { id = idset; }
         std::string GetPath();
         std::string GetType();
         std::string path;
-        std::string type;
+        std::string textype;
+        unsigned int idset;
     private:
 
-        GLuint id;                                                    
+
+        
+        unsigned int id; 
+       
         
 
     };

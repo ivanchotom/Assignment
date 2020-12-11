@@ -5,7 +5,6 @@
 #include "glm/glm/gtc/matrix_transform.hpp"
 
 #include "Shadertest.h"
-#include "Texture.h"
 
 #include <string>
 #include <fstream>
@@ -27,7 +26,7 @@ struct Vertex {
 	glm::vec3 Bitangent;
 };
 
-/*struct Textures {
+struct Texture {
 	unsigned int id;
 	std::string type;
 	std::string path;
@@ -36,7 +35,8 @@ struct Vertex {
 	std::string GetType() { return type; };
 	unsigned int GetId() { return id; };
 
-};*/
+};
+
 
 class Mesh {
 public:
