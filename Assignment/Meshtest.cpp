@@ -38,7 +38,7 @@ void Mesh::Draw(std::shared_ptr<Shader> shader)
 												 // now set the sampler to the correct texture unit
 		glUniform1i(glGetUniformLocation(shader->getID(), (name + number).c_str()), i);
 		// and finally bind the texture
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		glBindTexture(GL_TEXTURE_2D, textures[i].getId());
 	}
 
 	// draw mesh

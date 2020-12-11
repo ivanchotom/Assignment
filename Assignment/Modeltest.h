@@ -7,7 +7,7 @@
 #include "Dependencies/assimp/include/assimp/scene.h"
 #include "Dependencies/assimp/include/assimp/postprocess.h"
 
-#include "Mesh.h"
+#include "Meshtest.h"
 #include "Shadertest.h"
 
 #include <string>

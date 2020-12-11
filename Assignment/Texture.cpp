@@ -2,13 +2,14 @@
 #include "stb_image.h"
 #include <iostream>
 
-	Texture::Texture(std::string _path)
+	Texture::Texture(std::string _path, std::string _type)
 	{
-
+		_type = type;
+		path = _path;
 		glGenTextures(1, &id);
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load(_path.c_str(), &width, &height, &channels, 0);
+		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		if (data)
 		{
 			GLenum format;
@@ -32,14 +33,26 @@
 		}
 		else
 		{
-			std::cout << "Texture failed to load at path: " << _path << std::endl;
+			std::cout << "Texture failed to load at path: " << path << std::endl;
 			stbi_image_free(data);
 		}
 
+	
 	}
 
 	GLuint Texture::getId()
 	{
 		return id;
 	}
+
+	std::string Texture::GetPath()
+	{
+		return path;
+	}
+
+	std::string Texture::GetType()
+	{
+		return type;
+	}
+	
 

@@ -154,8 +154,8 @@ int main()
 
 	// load textures (we now use a utility function to keep the code more organized)
 	// -----------------------------------------------------------------------------
-	  Texture diffuseMap ("container2.png");
-	  Texture specularMap ("container2_specular.png");
+	  Texture diffuseMap ("container2.png", "diffuse");
+	  Texture specularMap ("container2_specular.png", "specular");
 
 	// shader configuration
 	// --------------------

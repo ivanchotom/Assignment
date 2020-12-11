@@ -1,5 +1,4 @@
 ﻿  glad.c
-  Meshtest.cpp
   Shadertest.cpp
   Source.cpp
 D:\Work\Assignment\Assignment\Assignment\Source.cpp(174,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
