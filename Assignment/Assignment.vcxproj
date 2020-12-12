@@ -160,16 +160,22 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="KeyCodes.h" />
     <ClInclude Include="Meshtest.h" />
     <ClInclude Include="Modeltest.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Sandbox.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shadertest.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <Xml Include="backpack\backpack.bobj">
+      <FileType>Document</FileType>
+    </Xml>
+    <None Include="backpack\backpack.mtl" />
     <None Include="color.fs" />
     <None Include="color.gs" />
     <None Include="color.vs" />
@@ -177,11 +183,19 @@
     <None Include="vert.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="backpack\ao.jpg" />
+    <Image Include="backpack\diffuse.jpg" />
+    <Image Include="backpack\normal.png" />
+    <Image Include="backpack\roughness.jpg" />
+    <Image Include="backpack\specular.jpg" />
     <Image Include="container2.png" />
     <Image Include="container2_specular.png" />
     <Image Include="src\awesomeface.png" />
     <Image Include="src\container.jpg" />
     <Image Include="wood.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="backpack\source_attribution.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,11 +2,11 @@
 
 #include <string>
 
-    class Texture 
+    class TextureLoader 
     {
     public:
 
-        Texture(std::string _path, std::string _type );
+        TextureLoader(std::string _path, std::string _type );
 
 
         unsigned int getId();

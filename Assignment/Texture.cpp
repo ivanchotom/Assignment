@@ -2,7 +2,7 @@
 #include "stb_image.h"
 #include <iostream>
 
-	Texture::Texture(std::string _path, std::string _type)
+    TextureLoader::TextureLoader(std::string _path, std::string _type)
 	{
 		textype = _type;
 		path = _path;
@@ -38,21 +38,21 @@
 			std::cout << "Texture failed to load at path: " << path << std::endl;
 			stbi_image_free(data);
 		}
-
+	
 	
 	}
 
-	unsigned int Texture::getId()
+	unsigned int TextureLoader::getId()
 	{
 		return id;
 	}
 
-	std::string Texture::GetPath()
+	std::string TextureLoader::GetPath()
 	{
 		return path;
 	}
 
-	std::string Texture::GetType()
+	std::string TextureLoader::GetType()
 	{
 		return textype;
 	}

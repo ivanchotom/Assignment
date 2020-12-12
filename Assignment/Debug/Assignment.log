@@ -1,15 +1,29 @@
 ﻿  Source.cpp
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(128,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(137,41): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(359,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(360,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(364,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(365,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(367,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(368,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Source.cpp(377,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Assignment.vcxproj -> D:\Work\Assignment\Assignment\Debug\Assignment.exe
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(137,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(176,32): error C2664: 'void renderScene(const Shader &)': cannot convert argument 1 from 'std::shared_ptr<Shader>' to 'const Shader &'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(176,32): message : Reason: cannot convert from 'std::shared_ptr<Shader>' to 'const Shader'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(176,15): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(19,6): message : see declaration of 'renderScene'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(197,21): error C2664: 'void renderScene(const Shader &)': cannot convert argument 1 from 'std::shared_ptr<Shader>' to 'const Shader &'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(197,21): message : Reason: cannot convert from 'std::shared_ptr<Shader>' to 'const Shader'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(197,15): message : No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(19,6): message : see declaration of 'renderScene'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(217,9): error C2039: 'setMat4': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(219,9): error C2039: 'setInt': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(221,9): error C2039: 'setInt': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(227,9): error C2039: 'setMat4': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(232,9): error C2039: 'setMat4': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(237,9): error C2039: 'setMat4': is not a member of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Meshtest.h(56): message : see declaration of 'std::shared_ptr<Shader>'
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(373,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(374,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(378,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(379,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(381,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(382,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(391,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data

@@ -1,13 +1,15 @@
 //#include <glad/glad.h>
 #include "Shadertest.h"
 #include <glfw3.h>
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
 
 #include <iostream>
 
 #include "Camera.h"
 #include "Texture.h"
+#include "Modeltest.h"
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -32,6 +34,11 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+
+glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+
+std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
+std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("vert.vs", "frag.fs");
 
 int main()
 {
@@ -78,13 +85,15 @@ int main()
 
 	// build and compile shaders
 	// -------------------------
-	Shader shader("vert.vs", "frag.fs");
-	Shader simpleDepthShader("color.vs", "color.fs", "color.gs");
+	// std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
+	// std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("vert.vs", "frag.fs");
+
+	
+	
 
 	// load textures
 	// -------------
-	unsigned int woodTexture = loadTexture("wood.png");
-
+	TextureLoader woodTexture ("container.jpg", "normaltex");
 	// configure depth map FBO
 	// -----------------------
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
@@ -111,13 +120,13 @@ int main()
 
 	// shader configuration
 	// --------------------
-	shader.use();
-	shader.setInt("diffuseTexture", 0);
-	shader.setInt("depthMap", 1);
+	shader->use();
+	shader->setInt("diffuseTexture", 0);
+	shader->setInt("depthMap", 1);
 
 	// lighting info
 	// -------------
-	glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+	//glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
 	// render loop
 	// -----------
@@ -129,12 +138,12 @@ int main()
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
+		//lightPos.z = sin(glfwGetTime() * 0.5) * 3.0;
 		// input
 		// -----
 		processInput(window);
 
 		// move light position over time
-		lightPos.z = sin(glfwGetTime() * 0.5) * 3.0;
 
 		// render
 		// ------
@@ -159,11 +168,11 @@ int main()
 		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		simpleDepthShader.use();
+		simpleDepthShader->use();
 		for (unsigned int i = 0; i < 6; ++i)
-			simpleDepthShader.setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
-		simpleDepthShader.setFloat("far_plane", far_plane);
-		simpleDepthShader.setVec3("lightPos", lightPos);
+			simpleDepthShader->setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
+		simpleDepthShader->setFloat("far_plane", far_plane);
+		simpleDepthShader->setVec3("lightPos", lightPos);
 		renderScene(simpleDepthShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -171,18 +180,18 @@ int main()
 		// -------------------------
 		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		shader.use();
+		shader->use();
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Getzoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
-		shader.setMat4("projection", projection);
-		shader.setMat4("view", view);
+		shader->setMat4("projection", projection);
+		shader->setMat4("view", view);
 		// set lighting uniforms
-		shader.setVec3("lightPos", lightPos);
-		shader.setVec3("viewPos", camera.GetPosition());
-		shader.setInt("shadows", shadows); // enable/disable shadows by pressing 'SPACE'
-		shader.setFloat("far_plane", far_plane);
+		shader->setVec3("lightPos", lightPos);
+		shader->setVec3("viewPos", camera.GetPosition());
+		shader->setInt("shadows", shadows); // enable/disable shadows by pressing 'SPACE'
+		shader->setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, woodTexture);
+		glBindTexture(GL_TEXTURE_2D, woodTexture.getId());
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 		renderScene(shader);
@@ -199,11 +208,12 @@ int main()
 
 // renders the 3D scene
 // --------------------
-void renderScene(const Shader& shader)
+ void renderScene(std::shared_ptr<Shader> &shader)
 {
 	// room cube
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::scale(model, glm::vec3(5.0f));
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0));
+	model = glm::scale(model, glm::vec3(10.0f));
 	shader.setMat4("model", model);
 	glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
 	shader.setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
@@ -229,13 +239,13 @@ void renderScene(const Shader& shader)
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
 	model = glm::scale(model, glm::vec3(0.5f));
-	shader.setMat4("model", model);
+	shader->setMat4("model", model);
 	renderCube();
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
 	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
 	model = glm::scale(model, glm::vec3(0.75f));
-	shader.setMat4("model", model);
+	shader->setMat4("model", model);
 	renderCube();
 }
 
@@ -290,7 +300,7 @@ void renderCube()
 			 1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
 			 1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
 			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
-			-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
+			-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left   
 		};
 		glGenVertexArrays(1, &cubeVAO);
 		glGenBuffers(1, &cubeVBO);
@@ -329,6 +339,10 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(CameraObject::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(CameraObject::RIGHT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+		lightPos.x = lightPos.x - deltaTime;
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+		lightPos.x = lightPos.x - deltaTime;
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !shadowsKeyPressed)
 	{
@@ -379,39 +393,3 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 // utility function for loading a 2D texture from file
 // ---------------------------------------------------
-unsigned int loadTexture(char const* path)
-{
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
-		stbi_image_free(data);
-	}
-
-	return textureID;
-}

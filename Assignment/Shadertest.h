@@ -18,6 +18,7 @@ public:
 	Shader(const char*, const char*, const char* = nullptr);
 	~Shader();
 
+	
 	void use();
 
 	unsigned int getID()

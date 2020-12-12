@@ -9,7 +9,7 @@
 #include "assimp/include/assimp/postprocess.h"
 
 #include "Meshtest.h"
-#include "Shadertest.h"
+
 
 #include <string>
 #include <fstream>
