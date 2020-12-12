@@ -1,15 +1,14 @@
 #pragma once
-#include "stdafx.h"
-
 #include "Shadertest.h"
-
-#include <fstream>
-
-#include <iostream>
-
+#include "Modeltest.h"
 #include "Camera.h"
 
-#include "Modeltest.h"
+
+#include <fstream>
+#include <iostream>
+#include "Dependencies/glfw3.h"  // ALWAYS AT BOTTOM
+
+
 
 class ObjectClass
 {

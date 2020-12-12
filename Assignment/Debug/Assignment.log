@@ -1,1 +1,15 @@
-﻿  Assignment.vcxproj -> D:\Work\Assignment\Assignment\Debug\Assignment.exe
+﻿  Source.cpp
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(128,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(137,41): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(359,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(360,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(364,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(365,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(367,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(368,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Source.cpp(377,28): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Assignment.vcxproj -> D:\Work\Assignment\Assignment\Debug\Assignment.exe
