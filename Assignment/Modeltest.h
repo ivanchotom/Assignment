@@ -21,8 +21,11 @@
 class Model
 {
 public:
-	/*  Model Data */
-
+		/*  Model Data */
+	std::vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+	std::vector<Mesh> meshes;
+	std::string directory;
+	bool gammaCorrection;
 	
 
 	// constructor, expects a filepath to a 3D model.
@@ -46,11 +49,6 @@ private:
 	// the required info is returned as a Texture struct.
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 	
-	/*  Model Data */
-	std::vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
-	std::vector<Mesh> meshes;
-	std::string directory;
-	bool gammaCorrection;
 	
 
 };

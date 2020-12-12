@@ -41,6 +41,11 @@ struct Texture {
 class Mesh {
 public:
 
+	/*  Render data  */
+	std::vector<Texture> textures;
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+	unsigned int VAO;
 	
 
 	// constructor
@@ -52,11 +57,6 @@ public:
 
 
 private:
-	/*  Render data  */
-	std::vector<Texture> textures;
-	std::vector<Vertex> vertices;
-	std::vector<unsigned int> indices;
-	unsigned int VAO;
 	unsigned int VBO, EBO;
 
 	/*  Functions    */
