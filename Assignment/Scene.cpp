@@ -1,101 +1,26 @@
-//#include <glad/glad.h>
-#include "Shadertest.h"
-#include <glfw3.h>
-#include "stb_image.h"
-#define STB_IMAGE_IMPLEMENTATION
+#include "Scene.h"
 
-#include <iostream>
-
-#include "Camera.h"
-#include "Texture.h"
-#include "Modeltest.h"
-
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow* window);
-unsigned int loadTexture(const char* path);
-void renderScene(const Shader& shader);
-void renderCube();
-
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-bool shadows = true;
-bool shadowsKeyPressed = false;
-
-// camera
-CameraObject camera;
-float lastX = (float)SCR_WIDTH / 2.0;
-float lastY = (float)SCR_HEIGHT / 2.0;
-bool firstMouse = true;
-
-// timing
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
-
-glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
-
-std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
-std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("vert.vs", "frag.fs");
-
-int main()
+void Scene::Initialise(GLFWwindow* _window, std::shared_ptr<CameraObject> _camera)
 {
-	// glfw: initialize and configure
-	// ------------------------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-	// glfw window creation
-	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
-	{
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
-
-	// tell GLFW to capture our mouse
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
-	}
-
-	// configure global opengl state
-	// -----------------------------
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	// build and compile shaders
-	// -------------------------
-	// std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
-	// std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("vert.vs", "frag.fs");
-
+	window = _window;
+	camera = _camera;
 	
-	
+	//	std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
+	//	std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("color.vs", "color.fs", "color.gs");
+	//	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("container.jpg", "normaltex");
 
-	// load textures
-	// -------------
-	TextureLoader woodTexture ("container.jpg", "normaltex");
-	// configure depth map FBO
-	// -----------------------
+	// shader configuration
+    // --------------------
+	shader->use();
+	shader->setInt("diffuseTexture", 0);
+	shader->setInt("depthMap", 1);
+}
+
+void Scene::LoadScene()
+{
+	bool shadows = true;
+	//Configure FrameBufferObject
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
@@ -118,18 +43,9 @@ int main()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
-	// shader configuration
-	// --------------------
-	shader->use();
-	shader->setInt("diffuseTexture", 0);
-	shader->setInt("depthMap", 1);
-
-	// lighting info
-	// -------------
-	//glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
 	// render loop
-	// -----------
+    // -----------
 	while (!glfwWindowShouldClose(window))
 	{
 		// per-frame time logic
@@ -137,13 +53,14 @@ int main()
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+	
+		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 
-		//lightPos.z = sin(glfwGetTime() * 0.5) * 3.0;
 		// input
 		// -----
 		processInput(window);
 
-		// move light position over time
+		
 
 		// render
 		// ------
@@ -173,28 +90,28 @@ int main()
 			simpleDepthShader->setMat4("shadowMatrices[" + std::to_string(i) + "]", shadowTransforms[i]);
 		simpleDepthShader->setFloat("far_plane", far_plane);
 		simpleDepthShader->setVec3("lightPos", lightPos);
-		renderScene(simpleDepthShader);
+		RenderCube(simpleDepthShader);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// 2. render scene as normal 
 		// -------------------------
-		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		glViewport(0, 0, ScreenWidth, ScreenHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader->use();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Getzoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = camera.GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(camera->Getzoom()), (float)ScreenWidth / (float)ScreenHeight, 0.1f, 100.0f);
+		glm::mat4 view = camera->GetViewMatrix();
 		shader->setMat4("projection", projection);
 		shader->setMat4("view", view);
 		// set lighting uniforms
 		shader->setVec3("lightPos", lightPos);
-		shader->setVec3("viewPos", camera.GetPosition());
+		shader->setVec3("viewPos", camera->GetPosition());
 		shader->setInt("shadows", shadows); // enable/disable shadows by pressing 'SPACE'
 		shader->setFloat("far_plane", far_plane);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, woodTexture.getId());
+		glBindTexture(GL_TEXTURE_2D, woodTexture->getId());
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
-		renderScene(shader);
+		RenderCube(shader);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -203,57 +120,51 @@ int main()
 	}
 
 	glfwTerminate();
-	return 0;
+	
 }
 
-// renders the 3D scene
-// --------------------
- void renderScene(std::shared_ptr<Shader> &shader)
+void Scene::RenderCube(std::shared_ptr<Shader>& shader)
 {
 	// room cube
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0));
 	model = glm::scale(model, glm::vec3(10.0f));
-	shader.setMat4("model", model);
+	shader->setMat4("model", model);
 	glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
-	shader.setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
-	renderCube();
-	shader.setInt("reverse_normals", 0); // and of course disable it
+	shader->setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.
+	SetCube();
+	shader->setInt("reverse_normals", 0); // and of course disable it
 	glEnable(GL_CULL_FACE);
 	// cubes
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(4.0f, -3.5f, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
-	shader.setMat4("model", model);
-	renderCube();
+	shader->setMat4("model", model);
+	SetCube();
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(2.0f, 3.0f, 1.0));
 	model = glm::scale(model, glm::vec3(0.75f));
-	shader.setMat4("model", model);
-	renderCube();
+	shader->setMat4("model", model);
+	SetCube();
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
-	shader.setMat4("model", model);
-	renderCube();
+	shader->setMat4("model", model);
+	SetCube();
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-1.5f, 1.0f, 1.5));
 	model = glm::scale(model, glm::vec3(0.5f));
 	shader->setMat4("model", model);
-	renderCube();
+	SetCube();
 	model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
 	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
 	model = glm::scale(model, glm::vec3(0.75f));
 	shader->setMat4("model", model);
-	renderCube();
+	SetCube();
 }
 
-// renderCube() renders a 1x1 3D cube in NDC.
-// -------------------------------------------------
-unsigned int cubeVAO = 0;
-unsigned int cubeVBO = 0;
-void renderCube()
+void Scene::SetCube()
 {
 	// initialize (if necessary)
 	if (cubeVAO == 0)
@@ -324,72 +235,18 @@ void renderCube()
 	glBindVertexArray(0);
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
+void Scene::processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(CameraObject::FORWARD, deltaTime);
+		camera->ProcessKeyboard(CameraObject::FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(CameraObject::BACKWARD, deltaTime);
+		camera->ProcessKeyboard(CameraObject::BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(CameraObject::LEFT, deltaTime);
+		camera->ProcessKeyboard(CameraObject::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(CameraObject::RIGHT, deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-		lightPos.x = lightPos.x - deltaTime;
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-		lightPos.x = lightPos.x - deltaTime;
+		camera->ProcessKeyboard(CameraObject::RIGHT, deltaTime);
 
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !shadowsKeyPressed)
-	{
-		shadows = !shadows;
-		shadowsKeyPressed = true;
-	}
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE)
-	{
-		shadowsKeyPressed = false;
-	}
 }
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-}
-
-// glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
-	lastX = xpos;
-	lastY = ypos;
-
-	camera.ProcessMouseMovement(xoffset, yoffset, true);
-}
-
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	camera.ProcessMouseScroll(yoffset);
-}
-
-// utility function for loading a 2D texture from file
-// ---------------------------------------------------

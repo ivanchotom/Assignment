@@ -1,5 +1,8 @@
 #pragma once
 #include "glad/glad.h"
+#include "Dependencies/glfw3.h"
+#include "stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
 #include "glm/glm/glm.hpp"
 
 #include <string>

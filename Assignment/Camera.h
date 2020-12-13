@@ -1,5 +1,5 @@
 #pragma once
-#include "Dependencies/glad/glad.h"
+#include "Texture.h"
 #include "Dependencies/glm/glm/glm.hpp"
 #include "Dependencies/glm/glm/gtc/matrix_transform.hpp"
 
