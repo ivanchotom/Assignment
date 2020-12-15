@@ -5,16 +5,13 @@ void Scene::Initialise(GLFWwindow* _window, std::shared_ptr<CameraObject> _camer
 
 	window = _window;
 	camera = _camera;
-	
-	//	std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
-	//	std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("color.vs", "color.fs", "color.gs");
-	//	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("container.jpg", "normaltex");
 
 	// shader configuration
     // --------------------
 	shader->use();
 	shader->setInt("diffuseTexture", 0);
 	shader->setInt("depthMap", 1);
+
 }
 
 void Scene::LoadScene()
@@ -29,7 +26,7 @@ void Scene::LoadScene()
 	glGenTextures(1, &depthCubemap);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, depthCubemap);
 	for (unsigned int i = 0; i < 6; ++i)
-		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -55,6 +52,7 @@ void Scene::LoadScene()
 		lastFrame = currentFrame;
 	
 		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+		//glm::vec4 lightColors(0.2f, 0.5f, 0.7f, 1.0f);
 
 		// input
 		// -----
@@ -69,8 +67,8 @@ void Scene::LoadScene()
 
 		// 0. create depth cubemap transformation matrices
 		// -----------------------------------------------
-		float near_plane = 1.0f;
-		float far_plane = 25.0f;
+		float near_plane = 0.2f;
+		float far_plane = 50.0f;
 		glm::mat4 shadowProj = glm::perspective(glm::radians(90.0f), (float)SHADOW_WIDTH / (float)SHADOW_HEIGHT, near_plane, far_plane);
 		std::vector<glm::mat4> shadowTransforms;
 		shadowTransforms.push_back(shadowProj * glm::lookAt(lightPos, lightPos + glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
@@ -128,7 +126,7 @@ void Scene::RenderCube(std::shared_ptr<Shader>& shader)
 	// room cube
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0));
-	model = glm::scale(model, glm::vec3(10.0f));
+	model = glm::scale(model, glm::vec3(20.0f));
 	shader->setMat4("model", model);
 	glDisable(GL_CULL_FACE); // note that we disable culling here since we render 'inside' the cube instead of the usual 'outside' which throws off the normal culling methods.
 	shader->setInt("reverse_normals", 1); // A small little hack to invert normals when drawing cube from the inside so lighting still works.

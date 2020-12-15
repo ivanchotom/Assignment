@@ -35,16 +35,14 @@ public:
 	const unsigned int ScreenWidth = 800;
 	const unsigned int ScreenHeight = 800;
 
+	//New objects
 	std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
 	std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("color.vs", "color.fs", "color.gs");
-	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("container.jpg", "normaltex");
+	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("wood.png", "normaltex");
 
-	//Shaders
-	//std::shared_ptr<Shader> shader;
-	//std::shared_ptr<Shader> simpleDepthShader;
-
-	//Textures
-	//std::shared_ptr<TextureLoader>woodTexture;
+	//Gamma
+	bool gammaEnabled = false;
+	bool gammaKeyPressed = false;
 
 	//Camera
 	std::shared_ptr<CameraObject> camera;

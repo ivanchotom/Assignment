@@ -40,6 +40,8 @@ int main()
 		return -1;
 	}
 
+	//Enable Blending
+
 	// Enabling Depth Testing so that fragments that are behind other objects don't get drawn
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
