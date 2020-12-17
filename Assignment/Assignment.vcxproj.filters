@@ -111,6 +111,15 @@
     <Image Include="backpack\specular.jpg">
       <Filter>Resource Files\backpackfolder</Filter>
     </Image>
+    <Image Include="clay.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="wooder.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="redwood.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="backpack\source_attribution.txt">

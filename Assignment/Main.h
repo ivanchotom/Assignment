@@ -3,8 +3,8 @@
 
 //Window
 GLFWwindow* window;
-const unsigned int ScreenWidth = 800;
-const unsigned int ScreenHeight = 800;
+const unsigned int ScreenWidth = 1420;
+const unsigned int ScreenHeight = 920;
 
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;

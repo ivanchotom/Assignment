@@ -16,9 +16,10 @@ void Scene::Initialise(GLFWwindow* _window, std::shared_ptr<CameraObject> _camer
 
 void Scene::LoadScene()
 {
-	bool shadows = true;
+
+	//bool shadows = true;
 	//Configure FrameBufferObject
-	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+    //unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
 	// create depth cubemap texture
@@ -39,7 +40,8 @@ void Scene::LoadScene()
 	glReadBuffer(GL_NONE);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
+	float fpsTimer = 0;
+	float fpsCounter = 0;
 
 	// render loop
     // -----------
@@ -50,7 +52,21 @@ void Scene::LoadScene()
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-	
+
+		if (fpsTimer < 1)
+		{
+			fpsTimer = fpsTimer + deltaTime;
+			fpsCounter++;
+		}
+		else
+		{
+			std::cout << "fps:" << fpsCounter << std::endl;
+			fpsTimer = 0;
+			fpsCounter = 0;
+		}
+
+		
+
 		glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
 		//glm::vec4 lightColors(0.2f, 0.5f, 0.7f, 1.0f);
 
@@ -123,6 +139,7 @@ void Scene::LoadScene()
 
 void Scene::RenderCube(std::shared_ptr<Shader>& shader)
 {
+	float moveCube = sin(glfwGetTime() * 0.5) * 3.0;
 	// room cube
 	glm::mat4 model = glm::mat4(1.0f);
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0));
@@ -145,7 +162,7 @@ void Scene::RenderCube(std::shared_ptr<Shader>& shader)
 	shader->setMat4("model", model);
 	SetCube();
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-3.0f, -1.0f, 0.0));
+	model = glm::translate(model, glm::vec3(-3.0f, sin(glfwGetTime() * 0.5) * 3.0, 0.0));
 	model = glm::scale(model, glm::vec3(0.5f));
 	shader->setMat4("model", model);
 	SetCube();
@@ -155,9 +172,19 @@ void Scene::RenderCube(std::shared_ptr<Shader>& shader)
 	shader->setMat4("model", model);
 	SetCube();
 	model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(-1.5f, 2.0f, -3.0));
-	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
+	model = glm::translate(model, glm::vec3(-5.5f, 2.0f, -3.0));
+	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, sin(glfwGetTime() * 0.5) * 3.0, 1.0)));
 	model = glm::scale(model, glm::vec3(0.75f));
+	shader->setMat4("model", model);
+	SetCube();
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-9.0f, 6.0f, sin(glfwGetTime() * 0.5f) * 3.0f));
+	model = glm::scale(model, glm::vec3(0.5f));
+	shader->setMat4("model", model);
+	SetCube();
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(sin(glfwGetTime() * 0.5) * 3.0, sin(glfwGetTime() * 0.5) * 3.0 , 3.0));
+	model = glm::scale(model, glm::vec3(0.5f));
 	shader->setMat4("model", model);
 	SetCube();
 }
@@ -247,4 +274,15 @@ void Scene::processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera->ProcessKeyboard(CameraObject::RIGHT, deltaTime);
 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && !shadowsKeyPressed)
+	{
+		shadows = !shadows;
+		shadowsKeyPressed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE)
+	{
+		shadowsKeyPressed = false;
+	}
+
 }
+

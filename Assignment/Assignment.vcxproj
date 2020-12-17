@@ -176,11 +176,14 @@
     <Image Include="backpack\normal.png" />
     <Image Include="backpack\roughness.jpg" />
     <Image Include="backpack\specular.jpg" />
+    <Image Include="clay.jpg" />
     <Image Include="container2.png" />
     <Image Include="container2_specular.png" />
+    <Image Include="redwood.jpg" />
     <Image Include="src\awesomeface.png" />
     <Image Include="src\container.jpg" />
     <Image Include="wood.png" />
+    <Image Include="wooder.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="backpack\source_attribution.txt" />

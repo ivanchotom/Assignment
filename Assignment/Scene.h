@@ -18,6 +18,7 @@ public:
 	void processInput(GLFWwindow* window);
 	void RenderCube(std::shared_ptr<Shader>& shader);
 	void SetCube();
+	
 
 	//fix
 	//glm::vec3 bulbPos(0.0f, 0.0f, 0.0f);
@@ -32,13 +33,13 @@ public:
 
 	//Window
 	GLFWwindow* window;
-	const unsigned int ScreenWidth = 800;
-	const unsigned int ScreenHeight = 800;
+	const unsigned int ScreenWidth = 1420;
+	const unsigned int ScreenHeight = 920;
 
 	//New objects
 	std::shared_ptr<Shader> shader = std::make_shared<Shader>("vert.vs", "frag.fs");
 	std::shared_ptr<Shader> simpleDepthShader = std::make_shared<Shader>("color.vs", "color.fs", "color.gs");
-	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("wood.png", "normaltex");
+	std::shared_ptr<TextureLoader>woodTexture = std::make_shared<TextureLoader>("redwood.jpg", "normaltex");
 
 	//Gamma
 	bool gammaEnabled = false;
@@ -46,6 +47,11 @@ public:
 
 	//Camera
 	std::shared_ptr<CameraObject> camera;
+
+	//Shadows 
+	bool shadows = true;
+	bool shadowsKeyPressed = false;
+	unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
 
 };

@@ -1,7 +1,18 @@
-﻿  Scene.cpp
-D:\Work\Assignment\Assignment\Assignment\Scene.cpp(50,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Scene.cpp(242,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Scene.cpp(244,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Scene.cpp(246,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Work\Assignment\Assignment\Assignment\Scene.cpp(248,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  Main.cpp
+D:\Work\Assignment\Assignment\Assignment\Main.h(38,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(39,11): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(43,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(44,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(46,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(47,10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Main.h(56,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Scene.cpp
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(52,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(58,24): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(142,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(269,50): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(271,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(273,47): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+D:\Work\Assignment\Assignment\Assignment\Scene.cpp(275,48): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
   Assignment.vcxproj -> D:\Work\Assignment\Assignment\Debug\Assignment.exe
